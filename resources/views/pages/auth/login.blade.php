@@ -50,7 +50,7 @@
                         Login
                     </button>
                 </div>
-                {{-- Belum punya akun? <a href="{{ route('register') }}">Buat baru</a> --}}
+                Belum punya akun? <a href="{{ route('register') }}">Buat baru</a>
             </form>
 
         </div>

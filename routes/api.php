@@ -12,6 +12,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/company', [CompanyController::class, 'show'])->middleware('auth:sanctum');
 Route::post('/checkin', [AttendanceController::class, 'checkin'])->middleware('auth:sanctum');

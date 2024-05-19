@@ -18,7 +18,8 @@ class AttendanceController extends Controller
                     $query->where('name', 'like', '%' . $name . '%');
                 });
             })->orderBy('id', 'desc')->paginate(10);
-        return view('pages.absensi.index', compact('attendances'));
+        $title = 'Attendances';
+        return view('pages.absensi.index', compact('attendances', 'title'));
     }
 
     /**

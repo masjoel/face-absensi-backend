@@ -19,7 +19,8 @@ class PermissionController extends Controller
                     $query->where('name', 'like', '%' . $name . '%');
                 });
             })->orderBy('id', 'desc')->paginate(10);
-        return view('pages.permission.index', compact('permissions'));
+        $title = 'Permissions';
+        return view('pages.permission.index', compact('permissions', 'title'));
     }
 
     /**

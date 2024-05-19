@@ -1,4 +1,4 @@
-{{-- @extends('layouts.auth')
+@extends('layouts.auth')
 
 @section('title', 'Register')
 
@@ -16,20 +16,10 @@
         <form method="POST">
             @csrf
             <div class="form-group mb-1">
-                <label for="frist_name">Nama Outlet</label>
+                <label for="frist_name">Nama lengkap</label>
                 <input id="frist_name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
                 value="{{ old('name') }}" autocomplete="off" autofocus>
                 @error('name')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
-            </div>
-            <div class="form-group my-1">
-                <label for="username">Username</label>
-                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror"
-                    name="username" value="{{ old('username') }}" autocomplete="off">
-                @error('username')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
@@ -84,4 +74,4 @@
         });
     });
 </script>
-@endpush --}}
+@endpush

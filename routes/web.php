@@ -9,17 +9,14 @@ use App\Http\Controllers\PermissionController;
 Route::get('/', function () {
     return view('pages.auth.login');
 });
+Route::get('register', function () {
+    return view('pages.auth.register');
+})->name('register');
 
 Route::middleware(['auth'])->group(function () {
-    // Route::get('home', function () {
-    //     return view('pages.dashboard', ['type_menu' => 'home']);
-    // })->name('home');
-
     Route::get('dashboard', function () {
         return view('pages.dashboard');
     })->name('dashboard');
-
-
     Route::resource('users', UserController::class);
     Route::resource('companies', CompanyController::class);
     Route::resource('attendances', AttendanceController::class);
