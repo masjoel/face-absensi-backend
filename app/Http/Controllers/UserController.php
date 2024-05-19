@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -11,12 +12,16 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::where('name', 'like', '%' . request('name') . '%')
+        $title = 'Users';
+        $users = User::
+            when($request->input('search'), function ($query, $search) {
+                return $query->where('name', 'like', '%' . $search . '%');
+            })
             ->orderBy('id', 'desc')
             ->paginate(10);
-        return view('pages.users.index', compact('users'));
+        return view('pages.users.index', compact('users', 'title'));
     }
 
     /**
@@ -24,7 +29,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('pages.users.create');
+        $title = 'New User';
+        return view('pages.users.create', compact('title'));
     }
 
     /**
@@ -64,7 +70,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('pages.users.edit', compact('user'));
+        $title = 'New User';
+        return view('pages.users.edit', compact('title', 'user'));
     }
 
     /**
@@ -100,7 +107,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        DB::beginTransaction();
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully');
+        DB::commit();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Succesfully Deleted Data'
+        ]);
     }
 }
