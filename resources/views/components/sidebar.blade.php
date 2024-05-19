@@ -11,13 +11,35 @@
                 <a href="{{ route('dashboard') }}" class="nav-link "><i
                         class="fas fa-dashboard"></i><span>Dashboard</span></a>
             </li>
-                {{-- <li class="menu-header">Admin only</li> --}}
+            <li class="nav-item ">
+                <a href="{{ route('users.index') }}" class="nav-link "><i class="fas fa-columns"></i>
+                    <span>Users</span></a>
+            </li>
 
+            <li class="nav-item">
+                <a href="{{ route('companies.show', 1) }}" class="nav-link">
+                    <i class="fas fa-columns"></i>
+                    <span>Company</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('attendances.index') }}" class="nav-link">
+                    <i class="fas fa-columns"></i>
+                    <span>Attendances</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('permissions.index') }}" class="nav-link">
+                    <i class="fas fa-columns"></i>
+                    <span>Permission</span>
+                </a>
+            </li>
                 {{-- <li class="nav-item {{ Request::is('profil*') ? 'active' : '' }}">
                     <a href="{{ route('profil-bisnis.edit', auth()->user()->perusahaan_id) }}" class="nav-link "><i
                             class="fas fa-home"></i><span>Profil Klinik</span></a>
                 </li> --}}
-                <li class="nav-item {{ Request::is('doctors*') ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ Request::is('doctors*') ? 'active' : '' }}">
                     <a href="{{ route('doctors.index') }}" class="nav-link "><i class="fas fa-user-doctor"></i><span>Doctors</span></a>
                 </li>
                 <li class="nav-item {{ Request::is('doctor-schedules*') ? 'active' : '' }}">
@@ -30,7 +52,7 @@
                     <a href="{{ route('service-medicines.index') }}" class="nav-link "><i class="fa-solid fa-stethoscope"></i><span>Service and Medicines</span></a>
                 </li>
                 <li class="nav-item {{ Request::is('users*') ? 'active' : '' }}">
-                    <a href="{{ route('users.index') }}" class="nav-link "><i class="fas fa-users"></i><span>Users</span></a>
+                    <a href="{{ route('users.index') }}" class="nav-link "><i class="fas fa-users"></i><span>Users</span></a> --}}
                 </li>
             <li class="nav-item">
                 <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
