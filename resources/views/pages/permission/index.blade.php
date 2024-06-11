@@ -86,20 +86,21 @@
                                                 <td>
                                                     <div class="d-flex justify-content-center">
                                                         <a href='{{ route('permissions.show', $permission->id) }}'
-                                                            class="btn btn-sm btn-info btn-icon">
-                                                            <i class="fas fa-edit"></i>
+                                                            class="btn btn-sm btn-warning btn-icon">
+                                                            <i class="fas fa-search"></i>
                                                             Detail
                                                         </a>
+                                                        <a href='{{ route('permissions.edit', $permission->id) }}'
+                                                            class="ml-2 btn btn-sm btn-info btn-icon">
+                                                            <i class="fas fa-edit"></i>
+                                                            Edit
+                                                        </a>
 
-                                                        <form action="{{ route('permissions.destroy', $permission->id) }}"
-                                                            method="POST" class="ml-2">
-                                                            <input type="hidden" name="_method" value="DELETE" />
-                                                            <input type="hidden" name="_token"
-                                                                value="{{ csrf_token() }}" />
-                                                            <button class="btn btn-sm btn-danger btn-icon confirm-delete">
-                                                                <i class="fas fa-times"></i> Delete
-                                                            </button>
-                                                        </form>
+                                                        <button class="ml-2 btn btn-sm btn-danger btn-icon confirm-delete"
+                                                            id="delete" data-id="{{ $permission->id }}" title="Hapus"
+                                                            data-toggle="tooltip">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -123,7 +124,16 @@
 @push('scripts')
     <!-- JS Libraies -->
     <script src="{{ asset('library/selectric/public/jquery.selectric.min.js') }}"></script>
+    <script src="{{ asset('library/sweetalert2/sweetalert2.min.js') }}"></script>
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('js/page/features-posts.js') }}"></script>
+    <script>
+        $(document).on("click", "button#delete", function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            showDeletePopup(BASE_URL + '/permissions/' + id, '{{ csrf_token() }}', '', '',
+                BASE_URL + '/permissions');
+        });
+    </script>
 @endpush

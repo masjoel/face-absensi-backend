@@ -84,11 +84,11 @@
 
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-                                                        <a href='{{ route('attendances.edit', $attendance->id) }}'
+                                                        {{-- <a href='{{ route('attendances.edit', $attendance->id) }}'
                                                             class="btn btn-sm btn-info btn-icon">
                                                             <i class="fas fa-edit"></i>
                                                             Edit
-                                                        </a>
+                                                        </a> --}}
 
                                                         <button class="ml-2 btn btn-sm btn-danger btn-icon confirm-delete"
                                                             id="delete" data-id="{{ $attendance->id }}" title="Hapus"

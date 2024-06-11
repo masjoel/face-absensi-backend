@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\attendance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends Controller
 {
@@ -51,7 +52,8 @@ class AttendanceController extends Controller
      */
     public function edit(attendance $attendance)
     {
-        //
+        $title = 'Edit Attendance';
+        return view('pages.absensi.edit', compact('attendance', 'title'));
     }
 
     /**
@@ -67,6 +69,12 @@ class AttendanceController extends Controller
      */
     public function destroy(attendance $attendance)
     {
-        //
+        DB::beginTransaction();
+        $attendance->delete();
+        DB::commit();
+        return response()->json([
+            'status' => 'success',
+            'message'
+        ]);
     }
 }

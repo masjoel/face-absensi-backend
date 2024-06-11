@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PermissionController extends Controller
 {
@@ -78,7 +79,13 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        //
+        // dd($request->all());
+        DB::beginTransaction();
+        // $data = $request->all();
+
+        $permission->update($request->all());
+        DB::commit();
+        return redirect()->route('permissions.index')->with('success', 'Permission updated successfully');
     }
 
     /**
@@ -86,6 +93,12 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        //
+        DB::beginTransaction();
+        $permission->delete();
+        DB::commit();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Succesfully Deleted Data'
+        ]);
     }
 }
