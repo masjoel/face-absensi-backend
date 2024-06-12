@@ -13,27 +13,30 @@ class PermissionController extends Controller
     //index
     public function index(Request $request)
     {
+        $title = 'Permission';
         $permissions = Permission::with('user')
             ->when($request->input('name'), function ($query, $name) {
                 $query->whereHas('user', function ($query) use ($name) {
                     $query->where('name', 'like', '%' . $name . '%');
                 });
             })->orderBy('id', 'desc')->paginate(10);
-        return view('pages.permission.index', compact('permissions'));
+        return view('pages.permission.index', compact('permissions', 'title'));
     }
 
     //view
     public function show($id)
     {
+        $title = 'Permission';
         $permission = Permission::with('user')->find($id);
-        return view('pages.permission.show', compact('permission'));
+        return view('pages.permission.show', compact('permission', 'title'));
     }
 
     //edit
     public function edit($id)
     {
+        $title = 'Permission';
         $permission = Permission::find($id);
-        return view('pages.permission.edit', compact('permission'));
+        return view('pages.permission.edit', compact('permission', 'title'));
     }
 
     //update
