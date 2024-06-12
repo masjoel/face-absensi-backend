@@ -43,7 +43,7 @@ class PermissionController extends Controller
         $permission->is_approved = $request->is_approved;
         $str = $request->is_approved == 1 ? 'Disetujui' : 'Ditolak';
         $permission->save();
-        $this->sendNotificationToUser($permission->user_id, 'Status Izin anda adalah ' . $str);
+        $this->sendNotificationToUser($permission->user_id, 'Status Izin anda  ' . $str);
         return redirect()->route('permissions.index')->with('success', 'Permission updated successfully');
     }
 
