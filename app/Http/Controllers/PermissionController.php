@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Permission;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 
 class PermissionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //index
     public function index(Request $request)
     {
         $permissions = Permission::with('user')
@@ -20,85 +19,48 @@ class PermissionController extends Controller
                     $query->where('name', 'like', '%' . $name . '%');
                 });
             })->orderBy('id', 'desc')->paginate(10);
-        $title = 'Permissions';
-        return view('pages.permission.index', compact('permissions', 'title'));
+        return view('pages.permission.index', compact('permissions'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    //view
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Permission $permission)
-    {
-        // $permission = Permission::with('user')->find($id);
+        $permission = Permission::with('user')->find($id);
         return view('pages.permission.show', compact('permission'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Permission $permission)
+    //edit
+    public function edit($id)
     {
-        // $permission = Permission::find($id);
+        $permission = Permission::find($id);
         return view('pages.permission.edit', compact('permission'));
     }
-    // public function sendNotificationToUser($userId, $message)
-    // {
-    //     // Dapatkan FCM token user dari tabel 'users'
 
-    //     $user = User::find($userId);
-    //     $token = $user->fcm_token;
-
-    //     // Kirim notifikasi ke perangkat Android
-    //     $messaging = app('firebase.messaging');
-    //     $notification = Notification::create('Status Izin', $message);
-
-    //     $message = CloudMessage::withTarget('token', $token)
-    //         ->withNotification($notification);
-
-    //     $messaging->send($message);
-    // }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Permission $permission)
+    //update
+    public function update(Request $request, $id)
     {
-        // dd($request->all());
-        DB::beginTransaction();
-        // $data = $request->all();
-
-        $permission->update($request->all());
-        DB::commit();
+        $permission = Permission::find($id);
+        $permission->is_approved = $request->is_approved;
+        $str = $request->is_approved == 1 ? 'Disetujui' : 'Ditolak';
+        $permission->save();
+        $this->sendNotificationToUser($permission->user_id, 'Status Izin anda adalah ' . $str);
         return redirect()->route('permissions.index')->with('success', 'Permission updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Permission $permission)
+    public function sendNotificationToUser($userId, $message)
     {
-        DB::beginTransaction();
-        $permission->delete();
-        DB::commit();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Succesfully Deleted Data'
-        ]);
+        // Dapatkan FCM token user dari tabel 'users'
+
+        $user = User::find($userId);
+        $token = $user->fcm_token;
+
+        // Kirim notifikasi ke perangkat Android
+        $messaging = app('firebase.messaging');
+        $notification = Notification::create('Status Izin', $message);
+
+        $message = CloudMessage::withTarget('token', $token)
+            ->withNotification($notification);
+
+        $messaging->send($message);
     }
 }
