@@ -64,7 +64,7 @@
                                             <label>Bukti Dukung</label>
                                             <p>
                                                 @if ($permission->image)
-                                                    <img src="{{ asset('storage/permission/' . $permission->image) }}"
+                                                    <img src="{{ asset('storage/permissions/' . $permission->image) }}"
                                                         alt="Bukti Dukung" style="max-width: 100%; height: auto;">
                                                 @else
                                                     Tidak ada bukti dukung
